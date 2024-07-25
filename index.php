@@ -10,9 +10,14 @@ if(isset($_GET['psw_length']) && ($_GET['psw_length'] >= 8 && $_GET['psw_length'
     $psw_length= $_GET['psw_length'];
     var_dump($psw_length);
     var_dump("funzione non ancora partita");
-    
+
+    session_start();
+
     // Richiamo funzione che genera la pass cosi da salvarla nella mia variabile
     $final_password = gen_pass($psw_length);
+
+    $_SESSION['password'] = $final_password;
+    header('Location: ./landing.php');
 }
 
 $message = (isset($_GET['psw_length']) && ($_GET['psw_length'] >= 8 && $_GET['psw_length'] <= 32)) ? $final_password : $error_password;
