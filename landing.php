@@ -15,7 +15,10 @@ $password_stamp = isset($_SESSION['password']) ? $_SESSION['password'] : 'Fatal 
 </head>
 <body>
     <div>
+        <h1>La tua Password è:</h1>
         <?php echo $password_stamp ?>
+        <br>
+        <a href="index.php">Torna alla Home</a>
     </div>
 </body>
 </html>
