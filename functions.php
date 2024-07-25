@@ -43,14 +43,16 @@ function gen_pass_pref($psw_length,$select_types){
         };
     } else {
         for ($i = 0; $i < $psw_length; $i++){
-            $rand_i = $select_types[rand(0, count($select_types) - 1)];
+            var_dump($select_types);
+            $rand_select = $select_types[0][rand(0, count($select_types[0]) - 1)];
 
-            $rand_is = rand(0, strlen($all_types[$rand_i]) - 1);
+            $rand_is = rand(0, strlen($all_types[$rand_select]) - 1);
     
-            $password .= $all_types[$rand_i][$rand_is];
+            $password .= $all_types[$rand_select][$rand_is];
     
             var_dump($password);
         };
+        return $password;
     }
-
+   
 }
