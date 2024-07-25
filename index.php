@@ -6,18 +6,29 @@ require __DIR__ .'/functions.php';
 $final_password = '';
 $error_password = (!isset($_GET['psw_length'])) ? 'Inserisci il numero di caratteri che vuoi per la tua password, il numero deve essere compreso tra 8 e 32' : 'Inserisci un numero compreso tra 8 e 32';
 
+$select_types = array();
+$select_types[] .= $_GET['select_types'];
+var_dump($select_types);
+
 if(isset($_GET['psw_length']) && ($_GET['psw_length'] >= 8 && $_GET['psw_length'] <= 32)){
     $psw_length= $_GET['psw_length'];
     var_dump($psw_length);
+    
     var_dump("funzione non ancora partita");
-
+    
     session_start();
+
+    // if(isset($_GET['select_types'])){
+    //     $select_types[] = $_GET['select_types'];
+    //     $final_password = gen_pass_pref($psw_length,$select_types);
+
+    // }
 
     // Richiamo funzione che genera la pass cosi da salvarla nella mia variabile
     $final_password = gen_pass($psw_length);
-
     $_SESSION['password'] = $final_password;
     header('Location: ./landing.php');
+    
 }
 
 $message = (isset($_GET['psw_length']) && ($_GET['psw_length'] >= 8 && $_GET['psw_length'] <= 32)) ? $final_password : $error_password;
@@ -38,6 +49,20 @@ $message = (isset($_GET['psw_length']) && ($_GET['psw_length'] >= 8 && $_GET['ps
             <form action="index.php" method="GET">
                 <label for="psw">Inserisci la lunghezza della password</label>
                 <input type="text" name="psw_length">
+                <label for="types">Seleziona cosa deve includere la password</label>
+                <div>
+                    <input type="checkbox" value="0" name="select_types">
+                    <label for="">Lettere</label>
+                </div>
+                <div>
+                    <input type="checkbox" value="1" name="select_types">
+                    <label for="">Numeri</label>
+                </div>
+                <div>
+                    <input type="checkbox" value="2" name="select_types">
+                    <label for="">Simboli</label>
+                </div>
+                <button type="submit">GENERA</button>
             </form>
         </div>
         <div class="output">
