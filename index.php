@@ -18,13 +18,16 @@ if(isset($_GET['psw_length']) && ($_GET['psw_length'] >= 8 && $_GET['psw_length'
     
     session_start();
 
-    if(isset($_GET['select_types'])){
+    if(isset($_GET['select_types']) || isset($_GET['single_pass'])){
         $select_types[] = $_GET['select_types'];
-        $final_password = gen_pass_pref($psw_length,$select_types);
-        $_SESSION['password'] = $final_password;
-        header('Location: ./landing.php');
+        $single_pass = isset($_GET['single_pass']);
+        $final_password = gen_pass_pref($psw_length,$select_types,$single_pass);
+        // $_SESSION['password'] = $final_password;
+        // header('Location: ./landing.php');
     } else {
         $final_password = gen_pass($psw_length);
+        // $_SESSION['password'] = $final_password;
+        // header('Location: ./landing.php');
     }
 
     // Richiamo funzione che genera la pass cosi da salvarla nella mia variabile
@@ -63,6 +66,10 @@ $message = (isset($_GET['psw_length']) && ($_GET['psw_length'] >= 8 && $_GET['ps
                 <div>
                     <input type="checkbox" value="2" name="select_types[]">
                     <label for="">Simboli</label>
+                </div>
+                <div>
+                    <input type="checkbox" name="single_pass">
+                    <label for="">NON USARE ;&#41;</label>
                 </div>
                 <button type="submit">GENERA</button>
             </form>
