@@ -27,20 +27,33 @@ function gen_pass_pref($psw_length,$select_types,$single_pass){
     $password = '';
     $all_types= [
         'abcdefghijklmnopqrstuvwxyz',
-        '0123456789',
         '!?&%$<>^+-*/()[]{}@#_=',
+        '0123456789',
+        
     ];
-    if(!isset($select_types)){
+    var_dump(!isset($select_types));
+    var_dump(empty($select_types));
+    if(!isset($select_types) || $select_types[0] === null){
         for ($i = 0; $i < $psw_length; $i++){
             $rand_i = rand(0, count($all_types) - 1);
             var_dump($rand_i);
-    
             $rand_is = rand(0, strlen($all_types[$rand_i]) - 1);
-    
-            $password .= $all_types[$rand_i][$rand_is];
-    
-            var_dump($password);
-        };
+            if($single_pass){
+                var_dump("ingresso in condizione");
+                if(!str_contains($password,$all_types[$rand_i][$rand_is])){
+                    $password .= $all_types[$rand_i][$rand_is];
+                } else {
+                    $i--;
+                    if($psw_length >= strlen($all_types[0])){
+                        $psw_length = strlen($all_types[0]);
+                    };
+                }
+            }else{
+                $password .= $all_types[$rand_i][$rand_is];
+            }
+            // $password .= $all_types[$rand_i][$rand_is];
+        }
+        return $password;
     } else {
         for ($i = 0; $i < $psw_length; $i++){
             var_dump($select_types);

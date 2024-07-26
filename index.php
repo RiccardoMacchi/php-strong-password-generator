@@ -3,16 +3,18 @@ var_dump("lettura php");
 
 require __DIR__ .'/functions.php';
 
+$min = 8;
+$max = 32;
+
 $final_password = '';
 $error_password = (!isset($_GET['psw_length'])) ? 'Inserisci il numero di caratteri che vuoi per la tua password, il numero deve essere compreso tra 8 e 32' : 'Inserisci un numero compreso tra 8 e 32!';
 
-$select_types = $_GET['select_types[]'];
-var_dump($select_types);
-var_dump($_GET['select_types']);
-
-if(isset($_GET['psw_length']) && ($_GET['psw_length'] >= 8 && $_GET['psw_length'] <= 32)){
+if(isset($_GET['psw_length']) && ($_GET['psw_length'] >= $min && $_GET['psw_length'] <= $max)){
     $psw_length= $_GET['psw_length'];
     var_dump($psw_length);
+    $select_types = $_GET['select_types[]'];
+    var_dump($select_types);
+    var_dump($_GET['select_types']);
     
     var_dump("funzione non ancora partita");
     
@@ -36,7 +38,7 @@ if(isset($_GET['psw_length']) && ($_GET['psw_length'] >= 8 && $_GET['psw_length'
     
 }
 
-$message = (isset($_GET['psw_length']) && ($_GET['psw_length'] >= 8 && $_GET['psw_length'] <= 32)) ? $final_password : $error_password;
+$message = (isset($_GET['psw_length']) && ($_GET['psw_length'] >= $min && $_GET['psw_length'] <= $max)) ? $final_password : $error_password;
 
 
 ?>
@@ -50,22 +52,27 @@ $message = (isset($_GET['psw_length']) && ($_GET['psw_length'] >= 8 && $_GET['ps
 </head>
 <body>
     <div class="container">
+        <h1>PASSWORD GENERATOR</h1>
+        <div class="output">
+            <span><?php echo $message ?></span>
+        </div>
+        <br>
         <div class="my_form">
             <form action="index.php" method="GET">
                 <label for="psw">Inserisci la lunghezza della password</label>
                 <input type="text" name="psw_length">
-                <label for="types">Seleziona cosa deve includere la password</label>
+                <h3>Seleziona cosa deve includere la password</h3>
                 <div>
                     <input type="checkbox" value="0" name="select_types[]">
                     <label for="">Lettere</label>
                 </div>
                 <div>
                     <input type="checkbox" value="1" name="select_types[]">
-                    <label for="">Numeri</label>
+                    <label for="">Simboli</label>
                 </div>
                 <div>
                     <input type="checkbox" value="2" name="select_types[]">
-                    <label for="">Simboli</label>
+                    <label for="">Numeri</label>
                 </div>
                 <div>
                     <input type="checkbox" name="single_pass">
@@ -74,9 +81,7 @@ $message = (isset($_GET['psw_length']) && ($_GET['psw_length'] >= 8 && $_GET['ps
                 <button type="submit">GENERA</button>
             </form>
         </div>
-        <div class="output">
-            <span><?php echo $message ?></span>
-        </div>
+        
     </div>
 </body>
 </html>
